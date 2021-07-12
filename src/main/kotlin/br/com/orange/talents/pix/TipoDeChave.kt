@@ -10,7 +10,7 @@ enum class TipoDeChave {
             if(chave.isNullOrBlank()){
                 return false
             }
-            if (!chave.matches("[0-9]".toRegex())){
+            if (!chave.matches("^[0-9]{11}\$".toRegex())){
                 return false
             }
 
@@ -28,10 +28,9 @@ enum class TipoDeChave {
             return chave.matches("^\\+[1-9][0-9]\\d{1,14}\$".toRegex())
         }
     },
-
     EMAIL {
         override fun valida(chave: String?): Boolean {
-            if (chave.isNullOrBlank()){
+            if (chave.isNullOrBlank()) {
                 return false
             }
             return EmailValidator().run {

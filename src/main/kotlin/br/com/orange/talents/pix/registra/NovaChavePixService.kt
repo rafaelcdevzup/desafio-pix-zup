@@ -6,10 +6,12 @@ import br.com.orange.talents.pix.ChavePixRepository
 import br.com.orange.talents.pix.ChavePixExistenteException
 import io.micronaut.validation.Validated
 import javax.inject.Inject
+import javax.inject.Singleton
 import javax.transaction.Transactional
 import javax.validation.Valid
 
 @Validated
+@Singleton
 class NovaChavePixService(
     @Inject val repository: ChavePixRepository,
     @Inject val itauClient: ContasDeClientesNoItauClient,) {
@@ -20,7 +22,7 @@ class NovaChavePixService(
 
         //1. Verificar se a chave já existe no banco de dados
        if (repository.existsByChave(novaChave.chave))
-          throw ChavePixExistenteException("Chave Pix `${novaChave.chave}` existente")
+          throw ChavePixExistenteException("Chave Pix '${novaChave.chave}' existente")
 
         //2. buscar dados da conta no ERP do Itau
        val response = itauClient.buscaContasPorTipo(novaChave.clientId!!, novaChave.tipoDeConta!!.name)
